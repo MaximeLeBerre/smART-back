@@ -6,7 +6,7 @@ router.get("/", async (req, res) =>{
     const [works] = await connection.query('SELECT * FROM theme');
     res.status(200).json(works)
   }catch (error) {
-    res.status(500).send(error.message)
+    next(error)
   }
 });
 
