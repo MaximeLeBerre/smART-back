@@ -17,7 +17,6 @@ router.get("/", async (req, res, next) =>{
     `);
     res.status(200).json(works)
   }catch (error) {
-    console.log(error.message)
     next(error)
   }
 });
@@ -32,6 +31,32 @@ router.get("/:artistId", async (req, res) =>{
     next(error)
   }
 });
+
+
+router.post("/new", async (req, res, next) => {
+  try{
+    const {
+      name,
+      picture,
+      date,
+      kind_id,
+      theme_id,
+      artist_id
+    } = req.body;
+    const posts = await connection.query('INSERT INTO work SET ?;' , [{
+      name,
+      picture,
+      date,
+      kind_id,
+      theme_id,
+      artist_id
+    }])
+    res.status(201).send(posts);
+  }catch(error){
+    console.log(error);
+    next(error)
+  }
+})
 
 
 
