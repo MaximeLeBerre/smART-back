@@ -10,4 +10,15 @@ router.get("/", async (req, res) =>{
   }
 });
 
+
+router.get("/:id", async (req, res) =>{
+  try{
+    const {id} = req.params;
+    const [artist] = await connection.query('SELECT * FROM artist WHERE id = ?', [id]);
+    res.status(200).json(artist)
+  }catch (error) {
+    next(error)
+  }
+});
+
 module.exports = router;
