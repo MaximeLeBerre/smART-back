@@ -1,0 +1,66 @@
+/* Replace with your SQL commands */
+
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE SCHEMA IF NOT EXISTS `smart` DEFAULT CHARACTER SET utf8 ;
+USE `smart` ;
+
+
+CREATE TABLE IF NOT EXISTS `smart`.`artist` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `picture` VARCHAR(500) NOT NULL,
+  `description` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `smart`.`kind` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `smart`.`theme` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `smart`.`work` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `picture` VARCHAR(200) NULL,
+  `date` VARCHAR(45) NOT NULL,
+  `kind_id` INT NOT NULL,
+  `theme_id` INT NOT NULL,
+  `artist_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_work_kind1_idx` (`kind_id` ASC) VISIBLE,
+  INDEX `fk_work_theme1_idx` (`theme_id` ASC) VISIBLE,
+  INDEX `fk_work_artist1_idx` (`artist_id` ASC) VISIBLE,
+  CONSTRAINT `fk_work_kind1`
+    FOREIGN KEY (`kind_id`)
+    REFERENCES `smart`.`kind` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_work_theme1`
+    FOREIGN KEY (`theme_id`)
+    REFERENCES `smart`.`theme` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_work_artist1`
+    FOREIGN KEY (`artist_id`)
+    REFERENCES `smart`.`artist` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
